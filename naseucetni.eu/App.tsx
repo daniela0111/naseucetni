@@ -4,12 +4,22 @@ import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
+import { RouteProp } from '@react-navigation/native';
 
-import HomePage from './screens/HomePage';
-import SettingsScreen from './screens/SettingScreen';
-import PhotoScreen from './screens/PhotoScreen';
+// Import your screens
+import HomePage from '../screens/HomePage';
+import SettingsScreen from '../screens/SettingScreen'; 
+import PhotoScreen from '../screens/PhotoScreen'; 
 
-const Tab = createBottomTabNavigator();
+// Define the parameter list for the bottom tab navigator
+type TabParamList = {
+  Doklady: undefined; // No parameters for this screen
+  Scanner: undefined; // No parameters for this screen
+  Nápověda: undefined; // No parameters for this screen
+};
+
+const Tab = createBottomTabNavigator(); // Removed type argument
 
 export default function App() {
   return (
@@ -17,7 +27,7 @@ export default function App() {
       <StatusBar style="light" />
       <NavigationContainer>
         <Tab.Navigator
-          screenOptions={({ route }) => ({
+          screenOptions={({ route }: { route: RouteProp<TabParamList, keyof TabParamList> }): BottomTabNavigationOptions => ({
             tabBarStyle: {
               backgroundColor: '#060663',
             },
@@ -38,7 +48,12 @@ export default function App() {
                   iconName = 'alert-circle'; // Fallback icon
               }
 
-              return <MaterialCommunityIcons name={iconName as keyof typeof MaterialCommunityIcons.glyphMap} color={color} />;
+              return (
+                <MaterialCommunityIcons
+                  name={iconName as keyof typeof MaterialCommunityIcons.glyphMap}
+                  color={color}
+                />
+              );
             },
           })}
         >
